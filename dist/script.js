@@ -1,10 +1,14 @@
-// Function to load users automatically on page load
-const loadUsers = async () => {
-    console.log('Fetching users on page load'); // Check if function is called
+// Determine API base URL based on the environment
+const isProduction = window.location.hostname === 'javascript-lab.onrender.com';
+const apiBaseUrl = isProduction ? 'https://javascript-lab.onrender.com/api' : 'http://localhost:3000/api';
+
+// Function to load users
+document.getElementById('load-users-btn').addEventListener('click', async () => {
+    console.log('Load Users button clicked'); // Check if button click is working
 
     try {
-        // Making the fetch request
-        const response = await fetch('https://javascript-lab.onrender.com/api/users'); 
+        // Making the fetch request using the dynamically set API URL
+        const response = await fetch(`${apiBaseUrl}/users`); 
         console.log('Response from API:', response); // Check the response status
 
         if (!response.ok) {
@@ -23,10 +27,10 @@ const loadUsers = async () => {
         users.forEach(user => {
             const row = document.createElement('tr');
 
-            // // Create table cells for each user property
-            // const idCell = document.createElement('td');
-            // idCell.textContent = user.id;
-            // row.appendChild(idCell);
+            // Create table cells for each user property
+            const idCell = document.createElement('td');
+            idCell.textContent = user.id;
+            row.appendChild(idCell);
 
             const usernameCell = document.createElement('td');
             usernameCell.textContent = user.username;
@@ -41,7 +45,4 @@ const loadUsers = async () => {
     } catch (error) {
         console.error('Error fetching users:', error); // Catch and log errors
     }
-};
-
-// Automatically load users when the page is fully loaded
-window.addEventListener('load', loadUsers);
+});
