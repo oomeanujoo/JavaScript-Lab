@@ -4,7 +4,7 @@ const loadUsers = async () => {
 
     try {
         // Making the fetch request
-        const response = await fetch('http://localhost:3000/api/users'); 
+        const response = await fetch('https://javascript-lab.onrender.com/api/users'); 
         console.log('Response from API:', response); // Check the response status
 
         if (!response.ok) {
