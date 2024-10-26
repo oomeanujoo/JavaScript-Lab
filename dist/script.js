@@ -1,6 +1,6 @@
 // Determine API base URL based on the environment
 const isProduction = window.location.hostname === 'javascript-lab.onrender.com';
-const apiBaseUrl = isProduction ? 'https://javascript-lab.onrender.com/api' : 'http://localhost:3000/api';
+const apiBaseUrl = isProduction ? 'https://javascript-lab.onrender.com/api' : 'https://javascript-lab-uj2s.onrender.com';
 
 // Function to load users
 document.getElementById('load-users-btn').addEventListener('click', async () => {
