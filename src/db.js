@@ -1,40 +1,35 @@
-import dotenv from "dotenv";
-import fs from "fs";
-import pkg from "pg"; // Import the entire pg module as a default import
-const { Client } = pkg; // Destructure the Client from the imported package
+import dotenv from 'dotenv';
+import fs from 'fs';
+import pkg from 'pg'; // PostgreSQL client
+const { Client } = pkg;
 
-dotenv.config();
+dotenv.config(); // Load environment variables
 
-// Log the values of environment variables
-console.log("DB_URL:", process.env.DB_URL);
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+// Build the connection string using environment variables
+const { DB_USER, DB_PASSWORD, DB_URL } = process.env;
+const connectionString = DB_URL
+  .replace('{$DB_USER}', DB_USER)
+  .replace('{$DB_PASSWORD}', DB_PASSWORD);
 
+// Initialize database client
 const client = new Client({
-  connectionString: process.env.DB_URL, // DB connection URL
-  user: process.env.DB_USER, // DB username
-  password: process.env.DB_PASSWORD, // DB password
+  connectionString, // Use the constructed connection string
   ssl: {
-    rejectUnauthorized: false, // Change to true in production if you have a valid certificate
-    ca: fs.readFileSync("./src/assets/root.crt").toString(), // Updated path to the certificate
+    rejectUnauthorized: false, // Disable SSL certificate verification (if needed)
+    ca: fs.readFileSync("./src/assets/root.crt").toString(), // SSL certificate
   },
 });
 
-export const connectToDatabase = async () => {z
+// Function to connect to the database
+export const connectToDatabase = async () => {
   try {
     await client.connect();
     console.log("Connected to the database");
   } catch (error) {
     console.error("Database connection error:", error);
-    throw error; // Rethrow the error for further handling
+    throw error; // Rethrow error for further handling
   }
 };
 
-export const getClient = () => {
-  return client; // Return the client for use in services
-};
-
-export const closeConnection = async () => {
-  await client.end();
-  console.log("Database connection closed");
-};
+// Function to get the database client
+export const getClient = () => client;
