@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Determine API base URL based on the environment
     const hostname = window.location.hostname;
+      // Set the hostname in the HTML element
+      document.getElementById('hostname').textContent = hostname;
 
     let apiBaseUrl;
 
