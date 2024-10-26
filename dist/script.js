@@ -1,25 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Determine API base URL based on the environment
     const hostname = window.location.hostname;
-      // Set the hostname in the HTML element
-      document.getElementById('hostname').textContent = hostname;
-
     let apiBaseUrl;
+    let environmentName;
 
     if (hostname === 'localhost') {
         // Local environment
         apiBaseUrl = 'http://localhost:3000/api';
+        environmentName = 'Local Environment';
     } else if (hostname === 'javascript-lab-uj2s.onrender.com') {
         // Development environment
         apiBaseUrl = 'https://javascript-lab-uj2s.onrender.com/api';
+        environmentName = 'Development Environment';
     } else if (hostname === 'javascript-lab.onrender.com') {
         // Production environment
         apiBaseUrl = 'https://javascript-lab.onrender.com/api';
+        environmentName = 'Production Environment';
     } else {
         // Fallback or error handling
         console.error('Unknown environment, using default API URL.');
-        apiBaseUrl = 'http://localhost:3000/api'; // Or any default URL you want to set
-    }
+        apiBaseUrl = 'http://localhost:3000/api'; // Default URL
+        environmentName = 'Unknown Environment';
+    } 
+
+    // Set the environment name in the HTML element
+    document.getElementById('environment-name').textContent = environmentName;
 
     // Log the API base URL for debugging
     console.log('API Base URL:', apiBaseUrl);
@@ -48,11 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate the table with user data
             users.forEach(user => {
                 const row = document.createElement('tr');
-
-                // Create table cells for each user property
-                // const idCell = document.createElement('td');
-                // idCell.textContent = user.id;
-                // row.appendChild(idCell);
 
                 const usernameCell = document.createElement('td');
                 usernameCell.textContent = user.username;
